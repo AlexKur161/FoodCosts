@@ -13,6 +13,7 @@ import CalendarFood from "/src/components/CalendarFood.vue";
 
 <style scoped>
 .main-wrapper {
+  flex: 1 0 auto;
   padding-top: 100px;
   max-width: 1200px;
   margin: auto;

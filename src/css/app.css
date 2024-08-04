@@ -1,1 +1,6 @@
 /* app global css */
+html,
+body,
+#q-app {
+  height: 100%;
+}

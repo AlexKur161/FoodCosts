@@ -78,6 +78,7 @@ defineOptions({
 
 const props = defineProps({
   showDialog: Boolean,
+  datePopup: String,
 });
 
 const timeShowFood = ref(false);

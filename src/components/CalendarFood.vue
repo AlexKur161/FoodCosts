@@ -8,7 +8,7 @@
       v-model="date"
       @update:model-value="showDialogFood = true"
     />
-    <FoodDayPopup v-model="showDialogFood"></FoodDayPopup>
+    <FoodDayPopup :datePopup="date" v-model="showDialogFood"></FoodDayPopup>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ defineOptions({
   name: "CalendarFood",
 });
 
-const date = ref("2024/08/01");
+const date = ref(new Date());
 const showDialogFood = ref(false);
 const myLocale = {
   days: [
