@@ -1,5 +1,6 @@
 <template>
   <div class="calendar-wrapper">
+    <p class="text-h6 text-center">Календарь расходов</p>
     <q-date
       dark
       color="primary"
@@ -67,5 +68,11 @@ const myLocale = {
 <style scoped>
 .calendar-wrapper {
   width: 70%;
+}
+@media (max-width: 620px) {
+  .calendar-wrapper {
+    width: 100%;
+    padding: 40px 0;
+  }
 }
 </style>

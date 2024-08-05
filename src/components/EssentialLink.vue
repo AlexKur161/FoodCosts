@@ -34,4 +34,9 @@ const menuLink = [
   gap: 10px;
   align-items: center;
 }
+@media (max-width: 620px) {
+  .menu-wrapper {
+    display: none;
+  }
+}
 </style>
