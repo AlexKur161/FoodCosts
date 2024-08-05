@@ -20,7 +20,7 @@ defineOptions({
   name: "CalendarFood",
 });
 
-const date = ref(new Date());
+const date = ref("");
 const showDialogFood = ref(false);
 const myLocale = {
   days: [

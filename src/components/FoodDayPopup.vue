@@ -1,5 +1,5 @@
 <template>
-  <q-dialog :value="showDialog">
+  <q-dialog @hide="hideFoodPopup" @show="showPopFood" :value="showDialog">
     <q-card v-if="!timeShowFood" class="dialog-wrapper">
       <q-card-section>
         <div class="text-h6 text-center">Добавить прием пищи</div>
@@ -63,14 +63,21 @@
       </q-card-section>
       <q-card-section class="q-pt-none flex items-center justify-between">
         <div>Итого {{ fullPrice }} р</div>
-        <q-btn @click="timeShowFood = false">Назад</q-btn>
+        <q-btn @click="prevFood">Назад</q-btn>
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-import { ref, reactive, defineProps, watch, computed } from "vue";
+import {
+  ref,
+  reactive,
+  defineProps,
+  watch,
+  computed,
+  onBeforeUnmount,
+} from "vue";
 
 defineOptions({
   name: "FoodDayPopup",
@@ -82,14 +89,19 @@ const props = defineProps({
 });
 
 const timeShowFood = ref(false);
+const timeFood = ref("");
 const expensesFood = ref({
   title: "",
   quantity: "",
   price: "",
   total: 0,
+  timeFood: "",
+  data: "",
 });
 
+const expensesDay = ref([]);
 const expensesFoods = ref([]);
+
 const fullPrice = computed(() => {
   if (expensesFoods.value.length > 0) {
     console.log(expensesFoods.value);
@@ -99,9 +111,18 @@ const fullPrice = computed(() => {
   }
 });
 
-function addEating(timeFood) {
+function addEating(timeFd) {
   timeShowFood.value = true;
-  console.log(timeFood);
+  timeFood.value = timeFd;
+  console.log(expensesDay.value);
+  console.log(
+    expensesDay.value.filter((item) => {
+      return item.timeFood == timeFd;
+    })
+  );
+  expensesFoods.value = expensesDay.value.filter((item) => {
+    return item.timeFood == timeFd;
+  });
 }
 
 function addFood() {
@@ -109,14 +130,45 @@ function addFood() {
   expensesFood.value.total =
     (+expensesFood.value.quantity).toFixed(1) *
     (+expensesFood.value.price).toFixed(1);
+  expensesFood.value.data = props.datePopup;
+  expensesFood.value.timeFood = timeFood.value;
   expensesFoods.value.push(expensesFood.value);
+  // newFoods.value.push(expensesFood.value);
+  const allExpensesFoods = JSON.parse(localStorage.getItem("foodObject"));
+  allExpensesFoods.push(expensesFood.value);
+  const localExpensesFoods = JSON.stringify(allExpensesFoods);
+  console.log(allExpensesFoods);
+  localStorage.setItem("foodObject", localExpensesFoods);
   expensesFood.value = {
     title: "",
     quantity: 0,
     price: 0,
     total: 0,
+    data: "",
   };
 }
+
+function prevFood() {
+  timeShowFood.value = false;
+  timeFood.value = "";
+}
+
+function showPopFood() {
+  console.log("srabotal");
+  let fullFoodData = JSON.parse(localStorage.getItem("foodObject"));
+  fullFoodData = fullFoodData.filter((item) => {
+    return item.data == props.datePopup;
+  });
+  expensesDay.value = fullFoodData;
+}
+
+function hideFoodPopup() {
+  timeShowFood.value = false;
+}
+
+onBeforeUnmount(() => {
+  console.log("zakrl");
+});
 </script>
 
 <style scoped>

@@ -3,9 +3,11 @@ const routes = [
     path: "/",
     component: () => import("pages/HomePage.vue"),
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: "/statement",
+    name: "statement",
+    component: () => import("pages/StatementPage.vue"),
+  },
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),

@@ -1,23 +1,14 @@
 <template>
-  <div class="main-content">
-    <MainHeader></MainHeader>
-    <MainWrapper></MainWrapper>
-    <MainFooter></MainFooter>
-  </div>
+  <EssentialLink></EssentialLink>
+  <CalendarFood></CalendarFood>
 </template>
 
 <script setup>
-import MainHeader from "/src/layouts/MainHeader.vue";
-import MainWrapper from "/src/layouts/MainWrapper.vue";
-import MainFooter from "/src/layouts/MainFooter.vue";
+import EssentialLink from "/src/components/EssentialLink.vue";
+import CalendarFood from "/src/components/CalendarFood.vue";
+
 defineOptions({
   name: "HomePage",
 });
 </script>
-<style>
-.main-content {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-</style>
+<style></style>

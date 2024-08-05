@@ -1,14 +1,11 @@
 <template>
   <div class="main-wrapper">
-    <EssentialLink></EssentialLink>
-    <CalendarFood></CalendarFood>
+    <router-view />
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
-import EssentialLink from "/src/components/EssentialLink.vue";
-import CalendarFood from "/src/components/CalendarFood.vue";
 </script>
 
 <style scoped>
@@ -19,5 +16,11 @@ import CalendarFood from "/src/components/CalendarFood.vue";
   margin: auto;
   display: flex;
   justify-content: space-between;
+  padding: 0 20px;
+}
+@media (max-width: 620px) {
+  .main-wrapper {
+    flex-direction: column;
+  }
 }
 </style>
