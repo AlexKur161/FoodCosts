@@ -21,6 +21,7 @@ import { ref, reactive } from "vue";
 @media (max-width: 620px) {
   .main-wrapper {
     flex-direction: column;
+    width: 100%;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <p class="text-h4">Все ваши расходы</p>
+  <p class="text-h6 q-mt-lg">Все ваши расходы</p>
   <div>
     <StatementDay
       :dayFood="day"
