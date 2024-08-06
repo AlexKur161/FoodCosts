@@ -4,10 +4,23 @@
     <div class="data-wrapper">
       <p class="data-title">{{ dayFood.data }}</p>
     </div>
-    <div><p class="time-title-food">Завтрак</p></div>
-    <div><p class="time-title-food">Обед</p></div>
-    <div><p class="time-title-food">Ужин</p></div>
-    <div><p class="time-title-food">Перекусы</p></div>
+    <div>
+      <p class="time-title-food">Завтрак</p>
+      <div v-for="(breakFood, i) in breakfast" :key="i">{{ breakFood }}</div>
+    </div>
+
+    <div>
+      <p class="time-title-food">Обед</p>
+      <div v-for="(lunchFood, i) in lunch" :key="i">{{ lunchFood }}</div>
+    </div>
+    <div>
+      <p class="time-title-food">Ужин</p>
+      <div v-for="(dinnerFood, i) in dinner" :key="i">{{ dinnerFood }}</div>
+    </div>
+    <div>
+      <p class="time-title-food">Перекусы</p>
+      <div v-for="(snackFood, i) in snack" :key="i">{{ snackFood }}</div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +36,27 @@ const props = defineProps({
 });
 
 const breakfast = computed(() => {
-  return "";
+  return props.dayFood.filter((item) => {
+    return item.timeFood === "завтрак";
+  });
+});
+
+const lunch = computed(() => {
+  return props.dayFood.filter((item) => {
+    return item.timeFood === "обед";
+  });
+});
+
+const dinner = computed(() => {
+  return props.dayFood.filter((item) => {
+    return item.timeFood === "ужин";
+  });
+});
+
+const snack = computed(() => {
+  return props.dayFood.filter((item) => {
+    return item.timeFood === "перекус";
+  });
 });
 </script>
 

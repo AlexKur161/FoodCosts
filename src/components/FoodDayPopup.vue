@@ -1,6 +1,6 @@
 <template>
   <q-dialog @hide="hideFoodPopup" @show="showPopFood" :value="showDialog">
-    <q-card v-if="!timeShowFood" class="dialog-wrapper">
+    <q-card v-if="!timeShowFood && datePopup !== null" class="dialog-wrapper">
       <q-card-section>
         <div class="text-h6 text-center">Добавить прием пищи</div>
       </q-card-section>
@@ -65,6 +65,9 @@
         <div>Итого {{ fullPrice }} р</div>
         <q-btn @click="prevFood">Назад</q-btn>
       </q-card-section>
+    </q-card>
+    <q-card v-if="datePopup === null" class="dialog-wrapper">
+      <p class="text-center">Выберите дату</p>
     </q-card>
   </q-dialog>
 </template>
@@ -133,9 +136,15 @@ function addFood() {
   expensesFood.value.data = props.datePopup;
   expensesFood.value.timeFood = timeFood.value;
   expensesFoods.value.push(expensesFood.value);
+  expensesDay.value.push(expensesFood.value);
   // newFoods.value.push(expensesFood.value);
-  const allExpensesFoods = JSON.parse(localStorage.getItem("foodObject"));
-  allExpensesFoods.push(expensesFood.value);
+  let allExpensesFoods = JSON.parse(localStorage.getItem("foodObject"));
+  console.log(allExpensesFoods);
+  if (allExpensesFoods) {
+    allExpensesFoods.push(expensesFood.value);
+  } else {
+    allExpensesFoods = expensesFoods.value;
+  }
   const localExpensesFoods = JSON.stringify(allExpensesFoods);
   console.log(allExpensesFoods);
   localStorage.setItem("foodObject", localExpensesFoods);
@@ -156,10 +165,13 @@ function prevFood() {
 function showPopFood() {
   console.log("srabotal");
   let fullFoodData = JSON.parse(localStorage.getItem("foodObject"));
-  fullFoodData = fullFoodData.filter((item) => {
-    return item.data == props.datePopup;
-  });
-  expensesDay.value = fullFoodData;
+  console.log(fullFoodData);
+  if (fullFoodData) {
+    fullFoodData = fullFoodData.filter((item) => {
+      return item.data == props.datePopup;
+    });
+    expensesDay.value = fullFoodData;
+  }
 }
 
 function hideFoodPopup() {
