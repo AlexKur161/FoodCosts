@@ -119,7 +119,7 @@ const snack = computed(() => {
   padding: 10px;
 }
 .data-title {
-  color: white;
+  color: #fff;
   font-size: 24px;
   margin: 0;
 }
