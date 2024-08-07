@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-wrapper">
+  <div style="display: none" class="menu-wrapper">
     <div :key="i" v-for="(link, i) in menuLink" class="menu-flex q-mb-sm">
       <q-icon color="primary" size="24px" :name="link.nameIcon"></q-icon>
       <q-item

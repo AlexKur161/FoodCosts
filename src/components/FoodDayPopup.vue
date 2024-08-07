@@ -24,25 +24,33 @@
     </q-card>
     <q-card v-if="timeShowFood" class="dialog-wrapper">
       <q-card-section>
-        <p class="title-add-product text-h6 text-center">Добавить продукт</p>
+        <p class="title-add-product text-h6 text-center q-mb-none">
+          Добавить продукт
+        </p>
       </q-card-section>
-      <q-card-section class="q-pt-none flex justify-center">
+      <q-card-section class="q-pt-none flex justify-center inp-wrapper">
         <q-input
+          dense
+          filled
           v-model="expensesFood.title"
           class="input-food-popup input-food-title"
           label="Название"
         ></q-input>
         <q-input
+          dense
+          filled
           type="number"
           v-model="expensesFood.quantity"
           class="input-food-popup"
-          label="Количество"
+          label="Кол-во в гр"
         ></q-input>
         <q-input
+          dense
+          filled
           type="number"
           v-model="expensesFood.price"
           class="input-food-popup"
-          label="Цена"
+          label="Цена за гр"
         ></q-input>
         <q-btn @click="addFood">Добавить</q-btn>
       </q-card-section>
@@ -56,9 +64,18 @@
           :key="i"
         >
           <p class="discription-food">{{ expenses.title }}</p>
-          <p class="discription-food">{{ expenses.quantity }} г</p>
+          <p class="discription-food">{{ expenses.quantity }} гр</p>
           <p class="discription-food">{{ expenses.price }} р</p>
           <p class="discription-food">Итого {{ expenses.total }} р</p>
+          <q-btn
+            class="remove-btn"
+            dense
+            size="10px"
+            round
+            color="primary"
+            icon="remove"
+            @click="deleteFood(expenses)"
+          ></q-btn>
         </div>
       </q-card-section>
       <q-card-section class="q-pt-none flex items-center justify-between">
@@ -73,14 +90,7 @@
 </template>
 
 <script setup>
-import {
-  ref,
-  reactive,
-  defineProps,
-  watch,
-  computed,
-  onBeforeUnmount,
-} from "vue";
+import { ref, reactive, defineProps, watch, computed } from "vue";
 
 defineOptions({
   name: "FoodDayPopup",
@@ -108,7 +118,7 @@ const expensesFoods = ref([]);
 const fullPrice = computed(() => {
   if (expensesFoods.value.length > 0) {
     console.log(expensesFoods.value);
-    return expensesFoods.value.reduce((acc, item) => acc + item.total, 0);
+    return expensesFoods.value.reduce((acc, item) => acc + +item.total, 0);
   } else {
     return 0;
   }
@@ -117,12 +127,6 @@ const fullPrice = computed(() => {
 function addEating(timeFd) {
   timeShowFood.value = true;
   timeFood.value = timeFd;
-  console.log(expensesDay.value);
-  console.log(
-    expensesDay.value.filter((item) => {
-      return item.timeFood == timeFd;
-    })
-  );
   expensesFoods.value = expensesDay.value.filter((item) => {
     return item.timeFood == timeFd;
   });
@@ -133,8 +137,10 @@ function addFood() {
   expensesFood.value.total =
     (+expensesFood.value.quantity).toFixed(1) *
     (+expensesFood.value.price).toFixed(1);
+  expensesFood.value.total = (+expensesFood.value.total).toFixed(0);
   expensesFood.value.data = props.datePopup;
   expensesFood.value.timeFood = timeFood.value;
+  expensesFood.value.id = Date.now();
   expensesFoods.value.push(expensesFood.value);
   expensesDay.value.push(expensesFood.value);
   // newFoods.value.push(expensesFood.value);
@@ -157,6 +163,17 @@ function addFood() {
   };
 }
 
+function deleteFood(food) {
+  let allExpensesFoods = JSON.parse(localStorage.getItem("foodObject"));
+  allExpensesFoods = allExpensesFoods.filter((item) => item.id !== food.id);
+  const localExpensesFoods = JSON.stringify(allExpensesFoods);
+  localStorage.setItem("foodObject", localExpensesFoods);
+  expensesFoods.value = expensesDay.value.filter((item) => {
+    return item.id !== food.id;
+  });
+  showPopFood();
+}
+
 function prevFood() {
   timeShowFood.value = false;
   timeFood.value = "";
@@ -177,10 +194,6 @@ function showPopFood() {
 function hideFoodPopup() {
   timeShowFood.value = false;
 }
-
-onBeforeUnmount(() => {
-  console.log("zakrl");
-});
 </script>
 
 <style scoped>
@@ -188,12 +201,26 @@ onBeforeUnmount(() => {
   width: 600px;
 }
 .input-food-popup {
-  max-width: 100px;
+  min-width: 220px;
 }
+
 .input-food-title {
   max-width: 150px;
 }
 .wrapper-discription-food {
   gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.discription-food {
+  margin-bottom: 0;
+}
+.inp-wrapper {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.remove-btn {
+  height: 12px;
 }
 </style>

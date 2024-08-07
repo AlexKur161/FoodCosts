@@ -19,7 +19,7 @@
             <q-item clickable>
               <q-item-section>
                 <router-link to="/statement"
-                  >Отсчеты по тратам</router-link
+                  >Отчеты по тратам</router-link
                 ></q-item-section
               >
             </q-item>
