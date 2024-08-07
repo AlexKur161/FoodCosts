@@ -135,8 +135,8 @@ function addEating(timeFd) {
 function addFood() {
   console.log("1", expensesFood.value);
   expensesFood.value.total =
-    (+expensesFood.value.quantity).toFixed(1) *
-    (+expensesFood.value.price).toFixed(1);
+    (+expensesFood.value.quantity).toFixed(3) *
+    (+expensesFood.value.price).toFixed(3);
   expensesFood.value.total = (+expensesFood.value.total).toFixed(0);
   expensesFood.value.data = props.datePopup;
   expensesFood.value.timeFood = timeFood.value;
